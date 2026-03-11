@@ -99,15 +99,13 @@ app/
 
 ---
 
-## Команды Git для публикации
+## Как запустить проэкт?
 
 ```bash
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin https://github.com/yourusername/Student_Material_Design_FIO.git
-git push -u origin main
+git clone https://github.com/yourusername/Student_Material_Design_FIO.git
+
+Shift+10
+
 ```
 
 ---
