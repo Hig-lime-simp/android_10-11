@@ -102,7 +102,7 @@ app/
 ## Как запустить проэкт?
 
 ```bash
-git clone https://github.com/yourusername/Student_Material_Design_FIO.git
+git clone https://github.com/Hig-lime-simp/android_10-11.git
 
 Shift+10
 
