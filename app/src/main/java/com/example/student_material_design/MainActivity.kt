@@ -23,6 +23,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -53,7 +55,9 @@ fun StudentIcon(
     Image(
         modifier = modifier
             .size(dimensionResource(R.dimen.image_size))
-            .padding(dimensionResource(R.dimen.padding_small)),
+            .padding(dimensionResource(R.dimen.padding_small))
+            .clip(MaterialTheme.shapes.small),
+        contentScale = ContentScale.Crop,
         painter = painterResource(studentIcon),
         contentDescription = null
     )}
@@ -101,10 +105,10 @@ fun StudentApp(){
             )}
     }}
 
-@Preview(showBackground = true)
-@Composable
-fun StudentPreview() {
-    Student_Material_DesignTheme(darkTheme = false) {StudentApp()}}
+//@Preview(showBackground = true)
+//@Composable
+//fun StudentPreview() {
+//    Student_Material_DesignTheme(darkTheme = false) {StudentApp()}}
 
 @Preview(showBackground = true)
 @Composable
