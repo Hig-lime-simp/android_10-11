@@ -7,15 +7,20 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -34,7 +39,13 @@ import com.example.student_material_design.data.students
 import com.example.student_material_design.ui.theme.Student_Material_DesignTheme
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 
 class MainActivity : ComponentActivity() {
@@ -64,7 +75,8 @@ fun StudentIcon(
         contentScale = ContentScale.Crop,
         painter = painterResource(studentIcon),
         contentDescription = null
-    )}
+    )
+}
 @Composable
 fun StudentInformation(
     @StringRes studentName: Int,
@@ -80,27 +92,61 @@ fun StudentInformation(
             text = stringResource(R.string.yesrs_old,studentAge),
             style = MaterialTheme.typography.bodyLarge
         )
-    }}
+    }
+}
 
 @Composable
-fun StudentItem(
-    student: Student,
-    modifier: Modifier = Modifier) {
-    Card(modifier = modifier) {
-        Row(
-            modifier = modifier
+fun StudentItem(student: Student, modifier: Modifier = Modifier) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = dimensionResource(id = R.dimen.padding_medium),
+                vertical = dimensionResource(id = R.dimen.padding_small)
+            )
+    ) {
+        Column(
+            modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensionResource(R.dimen.padding_small))
+                .animateContentSize()
         ) {
-            StudentIcon(student.imageResourceId)
-            StudentInformation(student.name,student.age)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(dimensionResource(id = R.dimen.padding_medium)),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                StudentIcon(student.imageResourceId)
+                StudentInformation(
+                    studentName = student.name,
+                    studentAge = student.age
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                StudentItemButton(
+                    expanded = expanded,
+                    onClick = { expanded = !expanded }
+                )
+            }
+
+            if (expanded) {
+                StudentDescription(
+                    studentDescription = student.description,
+                    modifier = Modifier.padding(
+                        start = dimensionResource(id = R.dimen.padding_medium),
+                        top = dimensionResource(id = R.dimen.padding_small),
+                        end = dimensionResource(id = R.dimen.padding_medium),
+                        bottom = dimensionResource(id = R.dimen.padding_medium)
+                    )
+                )
+            }
         }
     }
 }
 
 @Composable
-fun StudentApp() {
-    Scaffold(
+fun StudentApp() {Scaffold(
         topBar = {
             StudentTopAppBar()
         }
@@ -114,8 +160,7 @@ fun StudentApp() {
                 )
             }
         }
-    }
-}
+    }}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -142,7 +187,39 @@ fun StudentTopAppBar(modifier: Modifier = Modifier) {
                 )
             }
         }
-    )
+    )}
+
+@Composable
+private fun StudentItemButton(expanded: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier) {
+    IconButton(
+        onClick = onClick,
+        modifier = modifier
+    ) {
+        Icon(
+            imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
+            contentDescription = stringResource(id = R.string.expand_button_content_description),
+            tint = MaterialTheme.colorScheme.secondary
+        )
+    }
+}
+
+@Composable
+fun StudentDescription(@StringRes studentDescription: Int,
+    modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+    ) {
+        Text(
+            text = stringResource(id = R.string.about),
+            style = MaterialTheme.typography.labelSmall
+        )
+        Text(
+            text = stringResource(id = studentDescription),
+            style = MaterialTheme.typography.bodyLarge
+        )
+    }
 }
 
 @Preview(showBackground = true)
@@ -151,9 +228,9 @@ fun StudentPreview() {
     Student_Material_DesignTheme(darkTheme = false) {StudentApp()}
 }
 
-@Preview(showBackground = true)
-@Composable
-fun StudentDarkThemePreview() {
-    Student_Material_DesignTheme(darkTheme = true) {
-        StudentApp()
-    }}
+//@Preview(showBackground = true)
+//@Composable
+//fun StudentDarkThemePreview() {
+//    Student_Material_DesignTheme(darkTheme = true) {
+//        StudentApp()
+//    }}
