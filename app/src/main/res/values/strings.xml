@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Student_Material_Design</string>
+    <string name="app_name">Student List</string>
 
     <string name="student1">Иван Петров</string>
     <string name="student2">Алексей Иванов</string>

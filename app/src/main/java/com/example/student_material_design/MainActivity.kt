@@ -32,6 +32,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.student_material_design.data.Student
 import com.example.student_material_design.data.students
 import com.example.student_material_design.ui.theme.Student_Material_DesignTheme
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.ui.Alignment
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,20 +99,57 @@ fun StudentItem(
 }
 
 @Composable
-fun StudentApp(){
-    LazyColumn {
-        items(students) {
-            StudentItem(
-                student = it,
-                modifier = Modifier
-                    .padding(dimensionResource(R.dimen.padding_small))
-            )}
-    }}
+fun StudentApp() {
+    Scaffold(
+        topBar = {
+            StudentTopAppBar()
+        }
+    ) { it  ->
+        LazyColumn(contentPadding = it) {
+            items(students) {
+                StudentItem(
+                    student = it,
+                    modifier = Modifier
+                        .padding(dimensionResource(R.dimen.padding_small))
+                )
+            }
+        }
+    }
+}
 
-//@Preview(showBackground = true)
-//@Composable
-//fun StudentPreview() {
-//    Student_Material_DesignTheme(darkTheme = false) {StudentApp()}}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun StudentTopAppBar(modifier: Modifier = Modifier) {
+    CenterAlignedTopAppBar(
+        modifier = modifier,
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary
+        ),
+        title = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_student_logo),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(dimensionResource(id = R.dimen.image_size))
+                        .padding(dimensionResource(id = R.dimen.padding_small))
+                )
+                Text(
+                    text = stringResource(id = R.string.app_name),
+                    style = MaterialTheme.typography.displayLarge
+                )
+            }
+        }
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun StudentPreview() {
+    Student_Material_DesignTheme(darkTheme = false) {StudentApp()}
+}
 
 @Preview(showBackground = true)
 @Composable
