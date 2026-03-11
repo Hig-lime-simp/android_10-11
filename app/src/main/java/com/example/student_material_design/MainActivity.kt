@@ -105,3 +105,10 @@ fun StudentApp(){
 @Composable
 fun StudentPreview() {
     Student_Material_DesignTheme(darkTheme = false) {StudentApp()}}
+
+@Preview(showBackground = true)
+@Composable
+fun StudentDarkThemePreview() {
+    Student_Material_DesignTheme(darkTheme = true) {
+        StudentApp()
+    }}
