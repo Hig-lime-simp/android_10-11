@@ -87,7 +87,7 @@ fun Student_Material_DesignTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography(),
+        typography = Typography,
         content = content,
         shapes = Shapes
     )
